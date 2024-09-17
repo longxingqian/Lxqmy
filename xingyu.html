@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/xingyulike.css">
+</head>
+<body>
+    <div id="app">
+    <div class="x-doc">
+        <div class="headxy">
+            <div class="headxy-tj xhh">
+               <ul>
+                <li>
+                    <span>查询条件选择</span>
+                    <img src="images/skqb/zan.png" alt="">
+                </li>
+               </ul>
+            </div>
+            <div class="headxy-tj">
+                <ul>
+                    <li>
+                        <img src="images/skqb/share.png" alt="">
+                        <span>生成长图</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="x-ment ">
+            <div class="x-mentz">
+                <img src="images/skqb/left.png" alt="">
+                <span>短时强降水</span>
+                <img src="images/skqb/right.png" alt="">
+            </div>
+            <div class="x-mentime">  
+                2023年12月12号11:37
+            </div>
+            <div class="x-mentxtime">
+               
+            </div> 
+        </div>
+        <div class="y-meny">
+            <div class="x-mentz">
+                <img src="images/skqb/left.png" alt="">
+                <span>当前预警情况</span>
+                <img src="images/skqb/right.png" alt="">
+            </div>
+        </div>
+        <div class="z-meng">
+            <div class="x-mentz">
+                <img src="images/skqb/left.png" alt="">
+                <span>雨量分布图</span>
+                <img src="images/skqb/right.png" alt="">
+            </div>
+            <div class="zmengzy">
+                <img  alt="">
+            </div>
+            
+        </div>
+        <div class="o-many">
+            <div class="x-mentz">
+                <img src="images/skqb/left.png" alt="">
+                <span>雨量分布图</span>
+                <img src="images/skqb/right.png" alt="">
+            </div>
+            <div class="x-mentimes">  
+                <span class="x-mentime">
+                    2023.112.66
+                </span>
+                <span>(单位:毫米)</span>
+             </div>
+          <div class="ttxv">
+            <div class="omanybiao">
+                <div>排行</div>
+                <div>站点</div>
+                <div>区县</div>
+                <div>乡镇</div>
+                <div>雨量</div>
+            </div>
+            <div class="omanybiaos">
+              
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="tkboy" style="display:none;" >
+        <div class="tk">
+            <div class="ttetie zyz">
+                <div class="frist">要素选择</div>
+                <div class="tktxt">降水</div>
+            </div>
+        <div class="tktime zyz"> 
+             <div class="frist">时间选择</div>
+             <div class="tktimetxt">
+             <ul>
+                <li class="select" data-code="1">近1小时</li>
+                <li data-code="3">近3小时</li>
+                <li data-code="6">近6小时</li>
+                <li data-code="7">任意时段</li>
+             </ul>
+            </div>
+            <div class="tkzxcv">
+                <div class="tkzxcvmz">
+                  <span>开始时间</span>
+                  <div class="tkzxcvmx">
+                    <span>11111111111</span>
+                    <img src="images/skqb/rili.png" alt="">
+                   </div>
+                </div>
+                <div class="tkzxcvmz">
+                    <span>结束时间</span>
+                    <div class="tkzxcvmx">
+                      <span>11111111111</span>
+                      <img src="images/skqb/rili.png" alt="">
+                     </div>
+                </div>
+            </div>
+            <div class="homes">
+              <div class="home homey select" >生成快报</div>
+              <div class="home homex">
+                <li>恢复默认</li>
+              </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</body>
+<script src="script/common/jquery-2.1.4.min.js"></script>
+<script src="script/common/rem50.js"></script>
+<script src="script/common/Tool.js"></script>
+<script>
+$(function(){
+        function init(){
+            addlisten();
+            // ghtml(1);
+            // 执行第一个点击事件
+             $(".tktimetxt").find("li").eq(0).click();
+        }
+        function addlisten(){
+            startTime(1); 
+            $(".xhh").on("click","li",function(){
+                $(".xhh li").toggleClass("select");
+                if($(this).hasClass("select")){
+                $(".tkboy").show();
+            }else{
+                $(".tkboy").hide();
+            }
+            })
+
+            $(".ttetie").find(".tktxt").addClass("select");
+
+            $(".tktimetxt").on("click","li",function(){ 
+                $(this).addClass("select").siblings().removeClass("select");
+                  console.log(this)
+                if($(this).hasClass("select")){
+                  var kid=$(".tktimetxt li.select").attr("data-code");
+                  console.log(kid)
+                  if(kid==7){
+                    $(".x-mentime").text(new Date().Format("yyyy年MM月dd日hh时-"+new Date().Format("dd日hh时")));
+                  }else{
+                  startTime(kid)
+                  }
+                 ghtml(kid)
+               }
+            })
+
+            $(".zmengzy").find("img").attr("src","images/xycz/pxjgd/xxs.png");
+
+            $(".homes").on("click","div",function(){
+                $(this).addClass("select").siblings().removeClass("select");
+            })
+            $(".homes").on("click",".homey",function(){
+                $(".tkboy").hide();
+            })
+            $(".homex").on("click","li",function(){
+                $(".ttetie").find(".tktxt").removeClass("select");
+                $(".tktimetxt").find("li").removeClass("select");
+            })
+          
+        }
+
+        function startTime(code){
+           var  btime=new Date();
+           btime.addHours(-parseInt(code));
+         var etime=new Date();
+          $(".tkzxcvmx span").text(new Date().Format("yyyy-MM-dd hh:mm:ss"))
+            $(".x-mentime").text(btime.Format("yyyy年MM月dd日hh时-"+etime.Format("dd日hh时")));
+          
+        }
+
+      
+        //    var  btime=new Date();
+        //    btime.addHours(-parseInt(1));
+        function ghtml(fv){
+            var  xtime=new Date();
+           xtime.addHours(-parseInt(fv));
+           var ytime=new Date;
+           console.log(xtime)
+            $.ajax({
+            type:"GET",   
+       url:"http://xyqx.crweather.com/8210005/project/xinyu/warning/GetRainClearWeatherTextData_v1?areaCode=360500&userType=city&dataRate=fiveminute&collectionCode=xinyu_all&beginTime="+xtime.Format("yyyy-MM-dd%20hh:mm:ss")+"&endTime="+ytime.Format("yyyy-MM-dd%20hh:mm:ss"),
+            datatype: "json",
+            datatype: "json",
+            success:function(res){
+                res= JSON.parse(res)
+                console.log(res);
+               console.log(res.Data.contentText)
+               $(".x-mentxtime").text(res.Data.contentText)
+            }
+        })
+
+        // url:"http://xyqx.crweather.com/8210005/project/xinyu/warning/GetRainClearWeatherTextData_v1?areaCode=360500&userType=city&dataRate=fiveminute&collectionCode=xinyu_all&beginTime=2023-11-27%2014:00:00&endTime=2023-11-27%2015:00:00",
+        //     datatype: "json",
+        $.ajax({
+            type:"GET", 
+            url:"http://xyqx.crweather.com/8210005/weather/zdz/zdz/rain/GetRainSumTopNByCollectionCodeAndTimeRange_v1?dataRate=onehour&collectionCode=xinyu_all&beginTime=2023-11-27%2014:00:00&endTime=2023-11-27%2015:00:00&topN=10&isSpecialTime=false&zdzDayHourLimit=30&zdzHourMinuteLimit=1&isElementFliter=false",
+            datatype: "json",
+            success:function(res){
+                // res= JSON.parse(res)
+                console.log(res);
+                console.log(res.Rows[0][1]);
+                var html="";
+                 for(var i=0;i<10;i++){
+                 html+=`
+                      <div class="ytg">
+                      <li>${res.Rows[i][0]}</li>
+                      <li>${res.Rows[i][1]}</li>
+                      <li>${res.Rows[i][14]}</li>
+                      <li>-</li>
+                      <li>${res.Rows[i][27]}</li>
+                      </div>`
+                      
+                }
+                $(".omanybiaos").html(html);
+
+                    
+            }
+        })
+        } 
+       init();
+        
+
+})
+</script>
+</html>

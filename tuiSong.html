@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>推送订阅</title>
+    <link rel="stylesheet" href="style/tuiSong.css">
+</head>
+<body>    
+    <div class="qixiang">
+        <div class="qixi-title">
+            <div class="i-titxt">
+               <p>气象管家</p>
+               <p class="time">24:00</p>
+            </div>
+            <div class="crop">
+                <img src="./images/alarm/保存.png" alt="">
+                <span>保存</span>
+            </div>
+        </div>
+        <div class="city">
+            <div class="lookcity">
+                <div class="yuan"></div>
+                <span>关注地区</span>
+            </div>
+            <div class="contury"></div>
+        </div>
+        <div class="city">
+            <div class="xtyx">
+              <div class="lookcity-xty">
+                <div class="yuan"></div>
+                <span>关注类型</span>
+              </div>
+              <div class="xtyx-A">
+                <span>超过阈值会自动报警</span>
+              </div>
+            </div>  
+            <div class="contury-xing">
+              <div class="contry">
+               <div class="jiangshui">
+                <img src="./images/tuiSong/rain.png" alt="">
+                <span>降水</span>
+               </div>
+               <div class="bianhua">
+                &nbsp;大于&nbsp;
+                <div class="intext" data-code="1">
+                    <span class="woter">20</span>
+                    <img src="./images/tuiSong/xiala.png" alt="">
+                </div>
+                &nbsp;mm/&nbsp;
+                <div class="intext" data-code="2">
+                    <span class="wotertime">1</span>
+                    <img src="./images/tuiSong/xiala.png" alt="">
+                </div>
+                &nbsp;H&nbsp;
+               </div>
+              </div>
+              <div class="photo">
+              </div>
+              <p>暴雨：24小时降雨量≥50mm</p>
+            </div>
+            <div class="contury-xing">
+                <div class="contry">
+                 <div class="jiangshui">
+                  <img src="./images/tuiSong/wind.png" alt="">
+                  <span>大风</span>
+                 </div>
+                 <div class="bianhua">
+                  &nbsp;大于&nbsp;
+                  <input type="text" value="13">
+                  &nbsp;M/S&nbsp;
+                 </div>
+                </div>
+                <div class="photo">
+                </div>
+                <p>强风：风速≥10.8米每秒</p>
+            </div>
+            <div class="contury-xing">
+                <div class="contry">
+                 <div class="jiangshui">
+                  <img src="./images/tuiSong/htemp.png" alt="">
+                  <span>高温</span>
+                 </div>
+                 <div class="bianhua">
+                  &nbsp;高于&nbsp;
+                  <input type="text" value="15">
+                  &nbsp;℃&nbsp;
+                 </div>
+                </div>
+                <div class="photo">
+                </div>
+                <p>暴雨：24小时降雨量≥50mm</p>
+            </div>
+            <div class="contury-xing">
+                <div class="contry">
+                 <div class="jiangshui">
+                  <img src="./images/tuiSong/dtemp.png" alt="">
+                  <span>低温</span>
+                 </div>
+                 <div class="bianhua">
+                  &nbsp;低于&nbsp;
+                  <input type="text" value="5">
+                  &nbsp;℃&nbsp;
+                 </div>
+                </div>
+                <div class="photo">
+                </div>
+                <p>低温：气温≤5℃</p>
+            </div>
+            <div class="contury-xing">
+                <div class="contry">
+                 <div class="jiangshui">
+                  <img src="./images/tuiSong/shijian.png" alt="">
+                  <span>允许警告时间</span>
+                 </div>
+                 <div class="bianhua">
+                  <div class="intext" data-code="3">
+                        <span class="time8">8时</span>
+                        <img src="./images/tuiSong/xiala.png" alt="">
+                  </div>
+                  &nbsp;至&nbsp;
+                  <div class="intext" data-code="4">
+                    <span class="time20">20时</span>
+                    <img src="./images/tuiSong/xiala.png" alt="">
+                  </div>
+                 </div>
+                </div>
+            </div>
+        </div>
+        <div class="city">
+            <div class="trop-zx">
+                <img src="./images/tuiSong/zuo.png" alt="">
+                <span>个性化定制</span>
+                <img src="./images/tuiSong/you.png" alt="">
+            </div>
+            <div class="windys">
+                <div class="xtyx">
+                    <div class="lookcity-xty">
+                      <div class="yuan"></div>
+                      <span>性别</span>
+                    </div>
+                    <div class="xtyx-Axing">
+                      <div class="xingbie">
+                        <div class="sele"></div>
+                        <span class="selx">男</span>
+                      </div>
+                      <div class="xingbie">
+                        <div></div>
+                        <span>女</span>
+                      </div>
+                    </div>
+                </div>
+                <div class="xtyx">
+                    <div class="lookcity-xty">
+                      <div class="yuan"></div>
+                      <span>职业</span>
+                    </div>
+                    <div class="xtyx-A" data-code="5">  
+                      <span class="zhiye">文职类</span>
+                      <img src="./images/tuiSong/forward.png" alt="">
+                    </div>
+                </div>  
+                <div class="xtyx">
+                    <div class="lookcity-xty">
+                      <div class="yuan"></div>
+                      <span>户外爱好</span>
+                    </div>
+                    <div class="xtyx-A" data-code="6">  
+                      <span class="huwai">摄影</span>
+                      <img src="./images/tuiSong/forward.png" alt="">
+                    </div>
+                </div>
+                <div class="xtyx">
+                    <div class="lookcity-xty">
+                      <div class="yuan"></div>
+                      <span>工作性质</span>
+                    </div>
+                    <div class="xtyx-A" data-code="7">  
+                      <span class="gzuo">内勤</span>
+                      <img src="./images/tuiSong/forward.png" alt="">
+                    </div>
+                </div>  
+                <div class="xtyx">
+                    <div class="lookcity-xty">
+                      <div class="yuan"></div>
+                      <span>上班时间</span>
+                    </div>
+                    <div class="xtyx-A" data-code="8">  
+                      <span class="gztime">朝九晚五</span>
+                      <img src="./images/tuiSong/forward.png" alt="">
+                    </div>
+                </div> 
+                <div class="xtyx">
+                    <div class="lookcity-xty">
+                      <div class="yuan"></div>
+                      <span>交通方式</span>
+                    </div>
+                    <div class="xtyx-A" data-code="9">  
+                      <span class="jiaotong">步行</span>
+                      <img src="./images/tuiSong/forward.png" alt="">
+                    </div>
+                </div>  
+                <div class="xtyx">
+                    <div class="lookcity-xty">
+                      <div class="yuan"></div>
+                      <span>年龄</span>
+                    </div>
+                    <div class="xtyx-A" data-code="10">  
+                      <span class="age">青年</span>
+                      <img src="./images/tuiSong/forward.png" alt="">
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="tktop">
+            <div class="tktop-nax">
+                <div class="nax-aj">
+                   <span></span>
+                </div>
+                <div class="nax-txt">
+                </div>
+            </div>
+            <div class="tktop-nmx">
+             <img src="./images/alarm/close.png" alt="" @click="ischange">
+            </div>
+          </div>
+        <p class="tip">以上气象数据基于成都市气象台人工智能和网格大数据分析生成，未经人工审核和质量控制，与实际情况可能存在差距，仅供公众参考。未经允许，不得转载。</p>
+    </div>
+</body>
+<script src="script/common/jquery-2.1.4.min.js"></script>
+<script src="script/common/rem50.js"></script>
+<script src="script/common/Tool.js"></script>
+<script>
+    $(function(){
+    var getStations=[
+        {
+            "STATIONCODE": "S1003",
+            "STATIONLAT": "30.596899",
+            "STATIONLON": "104.119138",
+            "STATIONNAME":"锦江区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1038",
+            "STATIONLAT": "30.689566",
+            "STATIONLON": "103.95673",
+            "STATIONNAME":"青羊区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1009",
+            "STATIONLAT": "30.719327",
+            "STATIONLON": "104.040246",
+            "STATIONNAME":"金牛区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1007",
+            "STATIONLAT": "30.626846",
+            "STATIONLON": "103.992671",
+            "STATIONNAME":"武侯区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1006",
+            "STATIONLAT": "30.701823",
+            "STATIONLON": "104.148607",
+            "STATIONNAME":"成华区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1726",
+            "STATIONLAT": "30.406446",
+            "STATIONLON": "104.103893",
+            "STATIONNAME":"天府新区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1008",
+            "STATIONLAT": "30.556458",
+            "STATIONLON": "104.074786",
+            "STATIONNAME":"高新南区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1002",
+            "STATIONLAT": "30.765223",
+            "STATIONLON": "103.917016",
+            "STATIONNAME":"高新西区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "S3163",
+            "STATIONLAT": "30.356626",
+            "STATIONLON": "104.354625",
+            "STATIONNAME":"东部新区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56286",
+            "STATIONLAT": "30.610955",
+            "STATIONLON": "104.293871",
+            "STATIONNAME":"龙泉驿区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1221",
+            "STATIONLAT": "30.804371",
+            "STATIONLON": "104.33953",
+            "STATIONNAME":"青白江区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56290",
+            "STATIONLAT": "30.826716",
+            "STATIONLON": "104.148236",
+            "STATIONNAME":"新都区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56187",
+            "STATIONLAT": "30.716428",
+            "STATIONLON": "103.840822",
+            "STATIONNAME":"温江区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56288",
+            "STATIONLAT": "30.525192",
+            "STATIONLON": "103.96558",
+            "STATIONNAME":"双流区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56272",
+            "STATIONLAT": "30.830441",
+            "STATIONLON": "103.89672",
+            "STATIONNAME":"郫都区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56276",
+            "STATIONLAT": "30.431783",
+            "STATIONLON": "103.825973",
+            "STATIONNAME":"新津区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56295",
+            "STATIONLAT": "30.391089",
+            "STATIONLON": "104.658455",
+            "STATIONNAME":"简阳市",
+            "TYPE":"JPG"
+        },
+        {
+            "STATIONCODE": "56188",
+            "STATIONLAT": "31.007742",
+            "STATIONLON": "103.657647",
+            "STATIONNAME":"都江堰市",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56189",
+            "STATIONLAT": "31.129291",
+            "STATIONLON": "103.881075",
+            "STATIONNAME":"彭州市",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56284",
+            "STATIONLAT": "30.414686",
+            "STATIONLON": "103.36641",
+            "STATIONNAME":"邛崃市",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56181",
+            "STATIONLAT": "30.699406",
+            "STATIONLON": "103.618581",
+            "STATIONNAME":"崇州市",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56296",
+            "STATIONLAT": "30.735601",
+            "STATIONLON": "104.611935",
+            "STATIONNAME":"金堂县",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56285",
+            "STATIONLAT": "30.621651",
+            "STATIONLON": "103.438477",
+            "STATIONNAME":"大邑县",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56281",
+            "STATIONLAT": "30.241766",
+            "STATIONLON": "103.481583",
+            "STATIONNAME":"蒲江县",
+            "TYPE":"jpg"
+        }
+     ]
+    function addlisten(){
+        adxhtml();
+        var hx;
+        $(".i-titxt .time").text(new Date().Format("yyyy-MM-dd hh:mm")+"已保存")
+        $(".contury").on("click","li",function(){
+          $(this).toggleClass("select");
+        });
+        $(".contury-xing").on("click",".photo",function(){
+            $(this).toggleClass("picture");
+        });
+        $(".bianhua").on("click",".intext",function(){
+            $(".tktop").show();
+            var hsx=$(this).attr("data-code");
+            hx=hsx;
+            let textxs=$(this).find("span").text();
+            console.log(textxs)
+            xuanran(hsx,textxs);
+
+        });
+       
+        $(".xtyx").on("click",".xtyx-A",function(){
+            $(".tktop").show();
+            var ssx=$(this).attr("data-code");
+            let textxs=$(this).find("span").text();
+            xuanran(ssx,textxs);
+        });
+
+        $(".nax-txt").on("click","li",function(){
+            $(this).addClass("select").siblings().removeClass();
+            $(".tktop").hide();
+            let txtwor=$(this).text();
+            if($(".nax-aj").find("span").text()=="降水"){
+                $(".intext .woter").text(txtwor);
+            };
+            if($(".nax-aj").find("span").text()=="时间"){
+                if(hx==2){
+                $(".intext .wotertime").text(txtwor);
+                };
+                if(hx==3){
+                $(".intext .time8").text(txtwor);
+                };
+                if(hx==4){
+                $(".intext .time20").text(txtwor);
+                };
+            };    
+            if($(".nax-aj").find("span").text()=="职业"){
+                $(".xtyx-A .zhiye").text(txtwor);
+                console.log(txtwor);
+            };
+            if($(".nax-aj").find("span").text()=="户外爱好"){
+                $(".xtyx-A .huwai").text(txtwor);
+            };
+            if($(".nax-aj").find("span").text()=="工作性质"){
+                $(".xtyx-A .gzuo").text(txtwor);
+            };
+            if($(".nax-aj").find("span").text()=="上班时间"){
+                $(".xtyx-A .gztime").text(txtwor);
+            };
+            if($(".nax-aj").find("span").text()=="交通方式"){
+                $(".xtyx-A .jiaotong").text(txtwor);
+            };
+            if($(".nax-aj").find("span").text()=="年龄"){
+                $(".xtyx-A .age").text(txtwor);
+            };
+        });
+       
+        $(".xtyx-Axing .xingbie").eq(1).click(function(){
+           $(this).find("div").addClass("sele");
+           $(this).find("span").addClass("selx");
+           $(".xtyx-Axing .xingbie").eq(0).find("div").removeClass();
+           $(".xtyx-Axing .xingbie").eq(0).find("span").removeClass();
+        });
+        $(".xtyx-Axing .xingbie").eq(0).click(function(){
+           $(this).find("div").addClass("sele");
+           $(this).find("span").addClass("selx");
+           $(".xtyx-Axing .xingbie").eq(1).find("div").removeClass();
+           $(".xtyx-Axing .xingbie").eq(1).find("span").removeClass();
+        })
+
+        $(".tktop-nmx").click(function(){
+            $(".tktop").hide();
+        })
+    };
+    function adxhtml(){
+        var html="";
+        for(let i =0;i<getStations.length;i++){
+            html+=`
+              <li>${getStations[i].STATIONNAME}</li>
+            `
+        }
+        $(".contury").html(html);
+       
+    };
+
+    function xuanran(code,text){
+        var zhilist    = ["文职类","外卖类","快递类","道路运输类","高空作业类","户外作业类","餐饮经营类","露天经营类","种植类","养殖类","物业管理类","旅游服务类","防汛减灾类","工业生产类","影视摄影类","康养护理类","社区网格员","安全和消防人员","出租客运类","退休人员","学生","其他"];
+        var hulist     = ["摄影","写生","徒步","垂钓","运动","其他"];
+        var gonglist   =["内勤","外勤","内外兼修"];
+        var shanglist  =["朝九晚五","朝八晚六","九九六","其他"];
+        var jiaolist   = ["汽车","骑行","步行","公共交通","其他"];
+        var nianlist   = ["少年","青年","中年","老年"];
+        var rainlist   = ["10","20","30","40","50"];
+        var hourlist   = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"];
+        var waringlist = ["1时","2时","3时","4时","5时","6时","7时","8时","9时","10时","11时","12时","13时","14时","15时","16时","17时","18时","19时","20时","21时","22时","23时","24时"];
+            var hshtml="";
+            if(code==1){
+                $(".nax-aj span").text("降水");
+                for(let i =0;i<rainlist.length;i++){
+                    hshtml+=`<li class=${rainlist[i]==text?"select":""}>${rainlist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            };
+            if(code==2){
+                $(".nax-aj span").text("时间");
+                for(let i =0;i<hourlist.length;i++){
+                    hshtml+=`<li class=${hourlist[i]==text?"select":""}>${hourlist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            };
+            if(code==3){
+                $(".nax-aj span").text("时间");
+                for(let i =0;i<waringlist.length;i++){
+                    hshtml+=`<li class=${waringlist[i]==text?"select":""}>${waringlist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            };
+            if(code==4){
+                $(".nax-aj span").text("时间");
+                for(let i =0;i<waringlist.length;i++){
+                    hshtml+=`<li class=${waringlist[i]==text?"select":""}>${waringlist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            };
+            if(code==5){
+                $(".nax-aj span").text("职业");
+                for(let i =0;i<zhilist.length;i++){
+                    hshtml+=`<li class=${zhilist[i]==text?"select":""}>${zhilist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            }
+            if(code==6){
+                $(".nax-aj span").text("户外爱好");
+                for(let i =0;i<hulist.length;i++){
+                    hshtml+=`<li class=${hulist[i]==text?"select":""}>${hulist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            }
+            if(code==7){
+                $(".nax-aj span").text("工作性质");
+                for(let i =0;i<gonglist.length;i++){
+                    hshtml+=`<li class=${gonglist[i]==text?"select":""}>${gonglist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            }
+            if(code==8){
+                $(".nax-aj span").text("上班时间");
+                for(let i =0;i<shanglist.length;i++){
+                    hshtml+=`<li class=${shanglist[i]==text?"select":""}>${shanglist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            }
+            if(code==9){
+                $(".nax-aj span").text("交通方式");
+                for(let i =0;i<jiaolist.length;i++){
+                    hshtml+=`<li class=${jiaolist[i]==text?"select":""}>${jiaolist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            }
+            if(code==10){
+                $(".nax-aj span").text("年龄");
+                for(let i =0;i<nianlist.length;i++){
+                    hshtml+=`<li class=${nianlist[i]==text?"select":""}>${nianlist[i]}</li>`
+                }
+                $(".nax-txt").html(hshtml);
+            }
+
+       
+    }
+
+    addlisten();
+    });
+
+</script>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/LiveMon.css">
+    <style>
+        .kepubootm{
+            margin: 2vh;
+            font-size: 1rem;
+            color: #5b798c;
+        }
+    </style>
+</head>
+<body>
+    <div class="g-doc">
+        <!-- 要素 -->
+        <div id="headerMenu">
+            <div id="btnRain">降水</div>
+            <div id="btnTemp">气温</div>
+            <div id="btnWind">风</div>
+        </div>
+        <!-- 时间 -->
+        <div class="j-element">
+            <div class="m-drop-down-menu temp" data-unit="℃">
+                <ul>
+                    <li data-type="temp" data-code="t2m" data-field="AIRTEMP_CURRENT" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>实时气温</span>
+                        <div></div>
+                    </li>
+                    <li data-type="temp" data-code="tmax" data-field="AIRTEMP_MAX" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>过去24小时最高</span>
+                        <div></div>
+                    </li>
+                    <li data-type="temp" data-code="tmin" data-field="AIRTEMP_MIN" data-sort="asc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>过去24小时最低</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="m-drop-down-menu rain" data-unit="mm">
+                <ul>
+                    <li data-type="rain" data-code="1"  data-field="RAIN_SUM" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>1H</span>
+                        <div></div>
+                    </li>
+                    <li data-type="rain" data-code="3"  data-field="RAIN_SUM" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>3H</span>
+                        <div></div>
+                    </li>
+                    <li data-type="rain" data-code="6"  data-field="RAIN_SUM" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>6H</span>
+                        <div></div>
+                    </li>
+                    <li data-type="rain" data-code="12" data-field="RAIN_SUM" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>12H</span>
+                        <div></div>
+                    </li>
+                    <li data-type="rain" data-code="24" data-field="RAIN_SUM" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>24H</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="m-drop-down-menu wind" data-unit="m/s">
+                <ul>
+                    <li data-type="wind" data-code="1"  data-field="WIND_EXMAX" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>1H</span>
+                        <div></div>
+                    </li>
+                    <li data-type="wind" data-code="3"  data-field="WIND_EXMAX" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>3H</span>
+                        <div></div>
+                    </li>
+                    <li data-type="wind" data-code="24" data-field="WIND_EXMAX" data-sort="dasc">
+                        <img src="images/LiveMonitoring/LiveQuery_cloud.png" alt="">
+                        <span>24H</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 图片 -->
+        <div class="liveimg">
+            <img class="m-nav-menuimg" src="" alt="">
+        </div>
+        <!-- 列表 -->
+        <div class="datatable">
+            <div class="m-nav-menu">
+                <div class="j-name">
+                    <span>所有站</span>
+                    <img src="images/LiveMonitoring/LiveQuery_dwon.png" alt="">
+                </div>
+                <div class="j-city">
+                    <li data-code="chengdu_all" class="select">所有站</li>
+                    <li data-code="chengdu_repreta"  chengdu_county="">国家站</li>
+                </div>
+            </div>
+            <div class="datatableheader">
+                <div class="datatabletime"></div>
+                <div class="datatablesearch">
+                    <!-- <img src="images/LiveMonitoring/LiveQuery_search.png" alt=""> -->
+                    <!-- <span>搜索</span> -->
+                </div>
+            </div>
+            <div class="datatabletitle"></div>
+            <div class="datatableli"></div>
+            <!-- <div class="datatablemore">＋加载更多</div> -->
+        </div>
+    </div>
+    <div class="kepubootm">
+        以上气象数据基于成都市气象台人工智能和网格大数据分析生成，未经人工审核和质量控制，与实际情况可能存在差距，仅供公众参考。未经允许，不得转载。
+    </div>
+</body>
+</html>
+<script src="script/common/jquery-2.1.4.min.js"></script>
+<script src="script/common/rem.js"></script>
+<script src="script/common/Tool.js"></script>
+<script src="script/lib/Sun/1.0.22/sun.js"></script>
+<script src="script/lib/sun.Webservice1.3.4/sun.webservice.js"></script>
+<script>
+     SW.Rpc.BaseProxy.include({
+        ZDZ_GetRainSumByCollectionCodeAndMinutesAndQueryTime: function (a,b,c,successFn,errorFn) {
+            var params = [];
+            params     = params.concat("onehour",a,b*60,c);
+            return this.invoke('ZDZ.GetRainSumByCollectionCodeAndMinutesAndQueryTime', params, 1, successFn, errorFn);
+        },
+        
+        //实时气温
+        ZDZ_GetAirtempCurrentByCollectionCodeAndQueryTime: function (code,time,successFn,errorFn) {
+            var params = [];
+            params     = params.concat("tenminute",code,time);
+            return this.invoke('ZDZ.GetAirtempCurrentByCollectionCodeAndQueryTime', params, 1, successFn, errorFn);
+        },
+        //高温
+        ZDZ_GetAirtempMaxbyCollectionCodeAndTimeRange: function (code,btime,etime,successFn,errorFn) {
+            var params = [];
+            params     = params.concat("onehour",code,btime,etime);
+            return this.invoke('ZDZ.GetAirtempMaxbyCollectionCodeAndTimeRange', params, 1, successFn, errorFn);
+        },
+        //低温
+        ZDZ_GetAirtempMinByCollectionCodeAndTimeRange: function (code,btime,etime,successFn,errorFn) {
+            var params = [];
+            params     = params.concat("onehour",code,btime,etime);
+            return this.invoke('ZDZ.GetAirtempMinByCollectionCodeAndTimeRange', params, 1, successFn, errorFn);
+        },
+        //极大风
+        ZDZ_GetWindExMaxByCollectionCodeAndTimeRange: function (code,btime,etime,successFn,errorFn) {
+            var params = [];
+            params     = params.concat("onehour",code,btime,etime);
+            return this.invoke('ZDZ.GetWindExMaxByCollectionCodeAndTimeRange', params, 1, successFn, errorFn);
+        }
+    });
+    let radProxy = new SW.Rpc.BaseProxy({
+        rootURL:'http://www.cdsqxt.com.cn:10003',
+        serviceUrl: "/Weather/ZDZ",
+        debug: true,
+    });
+    var isten    = true,livedata,pxdata=[];
+    $(function(){
+            $("#headerMenu div").first().click();
+    })
+    $("#headerMenu").on("click","div",function(){
+        $(this).addClass("select").siblings().removeClass("select");
+        var tid=  $(this).attr("id");
+        if(tid == "btnTemp"){//气温
+            $(".temp").show();
+            $(".rain").hide();
+            $(".wind").hide();
+            $(".temp").addClass("select")
+            $(".rain").removeClass("select")
+            $(".wind").removeClass("select")
+            $(".temp li").last().click();
+        }else if(tid == "btnRain"){//降水
+            $(".temp").hide();
+            $(".rain").show();
+            $(".wind").hide();
+            $(".temp").removeClass("select")
+            $(".rain").addClass("select")
+            $(".wind").removeClass("select")
+            $(".rain li").first().click();
+        }else{//风
+            $(".temp").hide();
+            $(".rain").hide();
+            $(".wind").show();
+            $(".temp").removeClass("select")
+            $(".rain").removeClass("select")
+            $(".wind").addClass("select")
+            $(".wind li").first().click();
+        }
+    })
+    $(".temp").on("click","li",function(){
+        $(this).addClass("select").siblings().removeClass("select");
+        getData();
+        getimg();
+    })
+    $(".rain").on("click","li",function(){
+        $(this).addClass("select").siblings().removeClass("select");
+        getData();
+        getimg();
+    })
+    $(".wind").on("click","li",function(){
+        $(this).addClass("select").siblings().removeClass("select");
+        getData();
+        getimg();
+    })
+    $(".datatablemore").on("click",function(){
+        $(this).toggleClass("select");
+        if($(this).hasClass("select")){
+            $(".datatablemore").text("收起");
+            isten=false;
+        }else{
+            $(".datatablemore").text("＋加载更多");
+            isten=true;
+        }
+        sethtml(livedata,$(".j-element .m-drop-down-menu.select li.select").attr("data-field"));
+    })
+    $(".j-name").on("click",function(){
+        $(this).toggleClass("select");
+        if($(this).hasClass("select")){
+            $(".j-city").show()
+        }else{
+            $(".j-city").hide();
+        }
+    })
+    $(".j-city").on("click","li",function(){
+        $(this).addClass("select").siblings().removeClass("select");
+        $(".j-name").removeClass("select");
+        $(".j-name span").text($(this).text());
+        $(".j-city").hide();
+        getData();
+        getimg();
+    })
+    $(".datatableli").on("click","li",function(){
+        var type = $(".j-element .m-drop-down-menu.select li.select").attr("data-type");
+        var code = $(".j-element .m-drop-down-menu.select li.select").attr("data-code");
+        var key  = "rain_sum";
+        if(type=="rain"){
+            key  = "rain_sum";
+        }
+        if(code=="t2m"){
+            key  = "airtemp_current"
+        }
+        if(code=="tmax"){
+            key  = "airtemp_curhour_max"
+        }
+        if(code=="tmin"){
+            key  = "airtemp_curhour_min"
+        }
+        if(type=="wind"){
+            key  = "wind_exmax_curhour"
+            
+        }
+        location.href = "LiveDetail.html?stationCode="+$(this).find("img").attr("datacode")+"&key="+key+"&name="+encodeURIComponent($(this).find(".name").text());
+    })
+    $(".datatabletitle").on("click","datatabletitleli",function(){
+        $(this).toggleClass("select");
+        if($(this).hasClass("select")){
+            sethtml(pxdata.reverse(),$(".j-element .m-drop-down-menu.select li.select").attr("data-field"));
+            $(this).find("img").attr("src","images/LiveMonitoring/forecast.png")
+        }else{
+            sethtml(pxdata.reverse(),$(".j-element .m-drop-down-menu.select li.select").attr("data-field"));
+            $(this).find("img").attr("src","images/LiveMonitoring/actual.png")
+        }
+    })
+
+    function getimg(){
+        var type     = $(".j-element .m-drop-down-menu.select li.select").attr("data-type");
+        var code     = $(".j-element .m-drop-down-menu.select li.select").attr("data-code");
+        var mycode   = $(".j-city li.select").attr("data-code");
+        if(type=="rain"){
+            if(mycode=="chengdu_all"){
+                $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_RAIN"+(code==1?"":code)+".png")
+            }else{
+                $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_RAIN"+(code==1?"":code)+"County.png")
+            }
+        }
+        if(type=="temp"){
+            if(code=="t2m"){
+                if(mycode=="chengdu_all"){
+                    $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_T2M.png")
+                }else{
+                    $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_T2MCounty.png")
+                }
+            }
+            if(code=="tmax"){
+                if(mycode=="chengdu_all"){
+                    $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_TMAX.png")
+                }else{
+                    $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_TMAXCounty.png")
+                }
+            }
+            if(code=="tmin"){
+                if(mycode=="chengdu_all"){
+                    $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_TMIN.png")
+                }else{
+                    $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_TMINCounty.png")
+                }
+            }
+        }
+        if(type=="wind"){
+            if(mycode=="chengdu_all"){
+                $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_10UV"+(code==24?"":code+"H")+".png")
+            }else{
+                $(".liveimg").find("img").attr("src","http://www.cdsqxt.com.cn:10003/Files/Weather/ZDZ/Product/PythonPic/SY/TQSK_SY_10UV"+(code==24?"":code+"H")+"County.png")
+            }
+        }
+    }
+    function getData() {
+        var type     = $(".j-element .m-drop-down-menu.select li.select").attr("data-type");
+        var code     = $(".j-element .m-drop-down-menu.select li.select").attr("data-code");
+        var mycode   = $(".j-city li.select").attr("data-code");
+        var btime    = new Date();
+        var etime    = new Date();
+        console.log(type,code,mycode+"000");
+        if(type=="rain"){
+            radProxy.ZDZ_GetRainSumByCollectionCodeAndMinutesAndQueryTime(mycode,code,etime,function(resd){
+                setData(resd)
+            })
+        }
+        if(type=="temp"){
+            if(code=="t2m"){
+                radProxy.ZDZ_GetAirtempCurrentByCollectionCodeAndQueryTime(mycode,etime,function(res){
+                    setData(res)
+                })
+            }
+            if(code=="tmax"){
+                btime.addHour(-24);
+                radProxy.ZDZ_GetAirtempMaxbyCollectionCodeAndTimeRange(mycode,btime,etime,function(res){
+                    setData(res)
+                })
+            }
+            if(code=="tmin"){
+                btime.addHour(-24);
+                radProxy.ZDZ_GetAirtempMinByCollectionCodeAndTimeRange(mycode,btime,etime,function(res){
+                    setData(res)
+                })
+            }
+        }
+        if(type=="wind"){
+            //内置函数
+            btime.addHour(-parseInt(code));
+            btime.setMinutes(0);
+            btime.setSeconds(0);
+            etime.setMinutes(0);
+            etime.setSeconds(0);
+            radProxy.ZDZ_GetWindExMaxByCollectionCodeAndTimeRange(mycode,btime,etime,function(res){
+                setData(res)
+            })
+        }
+    }
+    function setData(data) {
+        console.log(data);
+        data     = unique(data);
+        data.sort(function (a, b) {
+            var v1,v2;
+            if($(".j-element .m-drop-down-menu.select li.select").attr("data-type") == "wind"){
+                v1 = a[$(".j-element .m-drop-down-menu.select li.select").attr("data-field") + "_SPEEDVALUE"];
+                v2 = b[$(".j-element .m-drop-down-menu.select li.select").attr("data-field") + "_SPEEDVALUE"];
+            }else{
+                v1 = a[$(".j-element .m-drop-down-menu.select li.select").attr("data-field") + "_VALUE"];
+                v2 = b[$(".j-element .m-drop-down-menu.select li.select").attr("data-field") + "_VALUE"];
+            }
+            v1     = parseFloat(v1);
+            v2     = parseFloat(v2);
+            if($(".j-element .m-drop-down-menu.select li.select").attr("data-sort") == "asc") {//升序
+                return v1 - v2;
+            }else{
+                return v2 - v1;
+            }
+        });
+        livedata = data;
+        isten    = true;
+        $(".datatablemore").removeClass("select");
+        $(".datatablemore").text("＋加载更多");
+        var tableHead = "<li>排名</li><li>站点</li><li class='datatabletitleli'><span>气温(°C)</span><img src='images/LiveMonitoring/actual.png' alt=''></li><li>走势</li>";
+        if ($(".j-element .m-drop-down-menu.select li.select").attr("data-type") == "rain") {
+            tableHead = "<li>排名</li><li>站点</li><li class='datatabletitleli'><span>雨量(mm)</span><img src='images/LiveMonitoring/actual.png' alt=''></li><li>走势</li>";
+        } else if ($(".j-element .m-drop-down-menu.select li.select").attr("data-type") == "wind") {
+            tableHead = "<li>排名</li><li>站点</li><li class='datatabletitleli'><span>风(m/s)</span><img src='images/LiveMonitoring/actual.png' alt=''></li><li>走势</li>";
+        }
+        $(".datatabletitle").html(tableHead);
+        sethtml(data,$(".j-element .m-drop-down-menu.select li.select").attr("data-field"));
+        if(data[0].RAIN_SUM_BEGINTIME){
+            $(".datatabletime").text(new Date(data[0].RAIN_SUM_BEGINTIME.replace(/-/g, '/')).Format("dd日hh时")+"-"+new Date(data[0].RAIN_SUM_ENDTIME.replace(/-/g, '/')).Format("dd日hh时"));
+        }
+        if(data[0].WIND_EXMAX_BEGINTIME){
+            $(".datatabletime").text(new Date(data[0].WIND_EXMAX_BEGINTIME.replace(/-/g, '/')).Format("dd日hh时")+"-"+new Date(data[0].WIND_EXMAX_ENDTIME.replace(/-/g, '/')).Format("dd日hh时"));
+        }
+    }
+
+    function sethtml(data,field){
+        $(".datatableli").html("");
+        // if(isten&&data.length>=10){
+            pxdata    =[];
+            var length=data.length>=30?30:data.length;
+            for(var i=0;i<length;i++){
+                var o = data[i];
+                gethtml(field,o,i);
+                pxdata.push(o);
+                }
+            }
+    function gethtml(field,o,i){
+        switch (field){
+                case "AIRTEMP_CURRENT":
+                case "AIRTEMP_MIN":
+                case "AIRTEMP_MAX":{
+                    $(".datatableli").append("<li><span>{0}</span><span class='name'>{1}</span><span>{2}</span></span><span><img datacode={3} src='images/LiveMonitoring/LiveQuery_ trend.png'></span></li>".Format(i+1,o.STATIONNAME||"-",o[field+"_VALUE"],o.STATIONCODE));
+                }break;
+                case "RAIN_SUM":{
+                    $(".datatableli").append("<li><span>{0}</span><span class='name'>{1}</span><span>{2}</span></span><span><img datacode={3} src='images/LiveMonitoring/LiveQuery_ trend.png'></span></li>".Format(i+1,o.STATIONNAME||"-",o[field+"_VALUE"],o.STATIONCODE));
+                }break;
+                case "WIND_CURRENT":
+                case "WIND_TWOMINUTE":
+                case "WIND_EXMAX":{
+                    var dir   = parseFloat(o[field+"_DIRVALUE"]);
+                    var speed = parseFloat(o[field+"_SPEEDVALUE"]);
+                    $(".datatableli").append("<li><span>{0}</span><span class='name'>{1}</span><span>{2}</span></span><span><img datacode={3} src='images/LiveMonitoring/LiveQuery_ trend.png'></span></li>".Format(i+1,o.STATIONNAME||"-",speed+"("+Tool.GetWindLevel(speed)+"级)",o.STATIONCODE));
+                }break;
+            }
+    }
+    function unique(arr) {
+        var result = [];
+        for(var i=0;i<arr.length;i++) {
+            var item = arr[i];
+            var type = $(".j-element .m-drop-down-menu.select li.select").attr("data-type");
+            var vule;
+            if(type == "wind"){
+                vule = item[$(".j-element .m-drop-down-menu.select li.select").attr("data-field")+"_SPEEDVALUE"]
+            }else{
+                vule =item[$(".j-element .m-drop-down-menu.select li.select").attr("data-field")+"_VALUE"]
+            }
+            if(vule!=null){
+                result.push(item);
+            }
+        }
+        return result;
+    }
+</script>

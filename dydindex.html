@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大运天气</title>
+    <link rel="stylesheet" href="style/dyindex.css">
+</head>
+
+<body>
+<div class="index">
+    <div class="head">
+        <p>
+            <img src="./images/index/position.png" alt="">
+            <span>成都市 金牛区</span>
+            <img src="./images/index/xiala1.png" alt="">
+        </p>
+    </div>
+    <div class="model">
+    <div class="temp">
+        <div class="temp-txt">
+            <span>_ _</span>
+        </div>
+        <div class="temp-sxc">
+             <span>℃</span>
+             <div class="temp-time">
+                <span></span>
+             </div>
+        </div>
+    </div>
+    <div class="temx">
+        <div>
+          <img src="./images/index/temp.png" alt="">
+          <p>过去降水:&nbsp<span class="temx-js"></span></p>
+        </div>
+        <div>
+            <img src="./images/index/rh.png" alt="">
+            <p>湿度:&nbsp<span class="temx-wsd"></span></p>
+        </div>
+        <div>
+            <img src="./images/index/wind.png" alt="">
+            <p>西北偏北风:&nbsp<span class="temx-fx"> /级</span></p>
+        </div>
+    </div>
+    </div>
+    <div class="dayun" style="display: none;">
+        <div class="dayun-title">
+         <li data-code="1">
+         <span>区(市)县</span>
+         <div></div>
+         </li>
+         <li data-code="2">
+         <span>旅游景区</span>
+         <div></div>
+         </li>
+         <li data-code="3" class="select">
+         <span>大运场馆</span>
+         <div></div>
+         </li>
+        </div>
+        <div class="dayun-rbj">
+        </div>
+    </div>
+    <div class="txplay">
+        <div class="play-zx">
+            <span>当前选择:</span>
+            <img src="./images/index/shangla.png" alt="">
+        </div>
+        <div class="play-zy">
+            <div class="playzy-sport">
+                <li data-code="4">比赛</li>
+                <li data-code="4">备选</li>
+                <li data-code="4">决赛</li>
+                <li data-code="4">开幕式</li>
+                <li data-code="4">训练</li>
+                <li data-code="4">重点</li>
+            </div>
+            <div class="playzy-cg">
+                <div class="biaoti"></div>
+                <div class="changuan">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="highchart">
+      <div class="i-highchart">
+        <div class="i-chart">
+         <table>
+            <tr class="hights">
+            </tr>
+         </table>
+        </div>
+        <div class="i-chart">
+         <table>
+            <tr class="hightsx">
+            </tr>
+         </table>
+        </div>
+     </div>
+     <div id="container" style="height: 300px; width: 98%;"></div>
+    </div>
+    <p class="tip">以上气象数据基于成都市气象台人工智能和网格大数据分析生成，未经人工审核和质量控制，与实际情况可能存在差距，仅供公众参考。未经允许，不得转载。</p>
+</div> 
+</body>
+<script src="script/common/jquery-2.1.4.min.js"></script>
+<script src="script/common/rem50.js"></script>
+<script src="script/common/Tool.js"></script>
+<script src="https://code.hcharts.cn/highcharts/highcharts.js"></script>
+<script>
+    $(function(){
+        var changguandata;
+        var chuangtxt;
+    var getStations=[
+        {
+            "STATIONCODE": "S1003",
+            "STATIONLAT": "30.596899",
+            "STATIONLON": "104.119138",
+            "STATIONNAME":"锦江区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1038",
+            "STATIONLAT": "30.689566",
+            "STATIONLON": "103.95673",
+            "STATIONNAME":"青羊区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1009",
+            "STATIONLAT": "30.719327",
+            "STATIONLON": "104.040246",
+            "STATIONNAME":"金牛区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1007",
+            "STATIONLAT": "30.626846",
+            "STATIONLON": "103.992671",
+            "STATIONNAME":"武侯区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1006",
+            "STATIONLAT": "30.701823",
+            "STATIONLON": "104.148607",
+            "STATIONNAME":"成华区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1726",
+            "STATIONLAT": "30.406446",
+            "STATIONLON": "104.103893",
+            "STATIONNAME":"天府新区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1008",
+            "STATIONLAT": "30.556458",
+            "STATIONLON": "104.074786",
+            "STATIONNAME":"高新南区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1002",
+            "STATIONLAT": "30.765223",
+            "STATIONLON": "103.917016",
+            "STATIONNAME":"高新西区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "S3163",
+            "STATIONLAT": "30.356626",
+            "STATIONLON": "104.354625",
+            "STATIONNAME":"东部新区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56286",
+            "STATIONLAT": "30.610955",
+            "STATIONLON": "104.293871",
+            "STATIONNAME":"龙泉驿区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "S1221",
+            "STATIONLAT": "30.804371",
+            "STATIONLON": "104.33953",
+            "STATIONNAME":"青白江区",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56290",
+            "STATIONLAT": "30.826716",
+            "STATIONLON": "104.148236",
+            "STATIONNAME":"新都区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56187",
+            "STATIONLAT": "30.716428",
+            "STATIONLON": "103.840822",
+            "STATIONNAME":"温江区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56288",
+            "STATIONLAT": "30.525192",
+            "STATIONLON": "103.96558",
+            "STATIONNAME":"双流区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56272",
+            "STATIONLAT": "30.830441",
+            "STATIONLON": "103.89672",
+            "STATIONNAME":"郫都区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56276",
+            "STATIONLAT": "30.431783",
+            "STATIONLON": "103.825973",
+            "STATIONNAME":"新津区",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56295",
+            "STATIONLAT": "30.391089",
+            "STATIONLON": "104.658455",
+            "STATIONNAME":"简阳市",
+            "TYPE":"JPG"
+        },
+        {
+            "STATIONCODE": "56188",
+            "STATIONLAT": "31.007742",
+            "STATIONLON": "103.657647",
+            "STATIONNAME":"都江堰市",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56189",
+            "STATIONLAT": "31.129291",
+            "STATIONLON": "103.881075",
+            "STATIONNAME":"彭州市",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56284",
+            "STATIONLAT": "30.414686",
+            "STATIONLON": "103.36641",
+            "STATIONNAME":"邛崃市",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56181",
+            "STATIONLAT": "30.699406",
+            "STATIONLON": "103.618581",
+            "STATIONNAME":"崇州市",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56296",
+            "STATIONLAT": "30.735601",
+            "STATIONLON": "104.611935",
+            "STATIONNAME":"金堂县",
+            "TYPE":"png"
+        },
+        {
+            "STATIONCODE": "56285",
+            "STATIONLAT": "30.621651",
+            "STATIONLON": "103.438477",
+            "STATIONNAME":"大邑县",
+            "TYPE":"jpg"
+        },
+        {
+            "STATIONCODE": "56281",
+            "STATIONLAT": "30.241766",
+            "STATIONLON": "103.481583",
+            "STATIONNAME":"蒲江县",
+            "TYPE":"jpg"
+        }
+    ]
+    var jingqudata=[
+            {
+                "id": 1,
+                "city": "成都",
+                "name": "青城山",
+                "lon": 103.578693473959,
+                "lat": 30.9035496224572,
+                "STATIONCODE": "S1016",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 2,
+                "city": "成都",
+                "name": "都江堰",
+                "lon": 103.629298453716,
+                "lat": 31.0039984068835,
+                "STATIONCODE": "S1083",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 3,
+                "city": "成都",
+                "name": "安仁古镇",
+                "lon": 103.625507560261,
+                "lat": 30.5154503099786,
+                "STATIONCODE": "S1621",
+                "TYPE":"png"
+            },
+            {
+                "id": 4,
+                "city": "成都",
+                "name": "三圣花乡",
+                "lon": 104.16237945474,
+                "lat": 30.5948803983447,
+                "STATIONCODE": "S1003",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 5,
+                "city": "成都",
+                "name": "武侯祠",
+                "lon": 104.048483147379,
+                "lat": 30.6482828907467,
+                "STATIONCODE": "S1185",
+                "TYPE":"png"
+            },
+            {
+                "id": 6,
+                "city": "成都",
+                "name": "杜甫草堂",
+                "lon": 104.034976975751,
+                "lat": 30.6663336648924,
+                "STATIONCODE": "S1145",
+                "TYPE":"gif"
+            },
+            {
+                "id": 7,
+                "city": "成都",
+                "name": "熊猫基地",
+                "lon": 104.152275900088,
+                "lat": 30.738978841512,
+                "STATIONCODE": "S1166",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 8,
+                "city": "成都",
+                "name": "洛带古镇",
+                "lon": 103.568597922558,
+                "lat": 30.8222541831025,
+                "STATIONCODE": "S1033",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 9,
+                "city": "成都",
+                "name": "宝光寺",
+                "lon": 104.167043649099,
+                "lat": 30.8381929635323,
+                "STATIONCODE": "S1405",
+                "TYPE":"png"
+            },
+            {
+                "id": 10,
+                "city": "成都",
+                "name": "黄龙溪",
+                "lon": 103.97709258437,
+                "lat": 30.323514175214,
+                "STATIONCODE": "S1013",
+                "TYPE":"png"
+            },
+            {
+                "id": 11,
+                "city": "成都",
+                "name": "国色天香",
+                "lon": 103.960030926982,
+                "lat": 30.99841191501,
+                "STATIONCODE": 56187,
+                "TYPE":"jpg"
+            },
+            {
+                "id": 12,
+                "city": "成都",
+                "name": "平乐古镇",
+                "lon": 103.339106673015,
+                "lat": 30.3496177101559,
+                "STATIONCODE": "S1030",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 13,
+                "city": "成都",
+                "name": "天台山",
+                "lon": 103.861927602552,
+                "lat": 31.2455077597595,
+                "STATIONCODE": "S1026",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 14,
+                "city": "成都",
+                "name": "金沙遗址",
+                "lon": 104.009940221105,
+                "lat": 30.6886924632366,
+                "STATIONCODE": "S1014",
+                "TYPE":"png"
+            },
+            {
+                "id": 15,
+                "city": "成都",
+                "name": "欢乐谷",
+                "lon": 104.040006980006,
+                "lat": 30.7272969998559,
+                "STATIONCODE": "S1009",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 16,
+                "city": "成都",
+                "name": "街子古镇",
+                "lon": 103.567210883217,
+                "lat": 30.8202588126012,
+                "STATIONCODE": "S1655",
+                "TYPE":"png"
+            },
+            {
+                "id": 17,
+                "city": "成都",
+                "name": "西岭雪山",
+                "lon": 103.178111498407,
+                "lat": 30.6811453761118,
+                "STATIONCODE": "S1606",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 18,
+                "city": "成都",
+                "name": "花水湾",
+                "lon": 103.263884851661,
+                "lat": 30.564385585241,
+                "STATIONCODE": "S1015",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 19,
+                "city": "成都",
+                "name": "花舞人间",
+                "lon": 103.81357284569,
+                "lat": 30.391988393188,
+                "STATIONCODE": 56276,
+                "TYPE":"jpg"
+            },
+            {
+                "id": 20,
+                "city": "成都",
+                "name": "海昌海洋世界",
+                "lon": 104.079774883389,
+                "lat": 30.5021764298705,
+                "STATIONCODE": "S1041",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 21,
+                "city": "成都",
+                "name": "虹口漂流",
+                "lon": 103.629658170357,
+                "lat": 31.0040492764026,
+                "STATIONCODE": "S1290",
+                "TYPE":"png"
+            },
+            {
+                "id": 22,
+                "city": "成都",
+                "name": "非遗博览园",
+                "lon": 103.929922104262,
+                "lat": 30.6797768040861,
+                "STATIONCODE": "S1142",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 23,
+                "city": "成都",
+                "name": "东郊记忆",
+                "lon": 104.129416948499,
+                "lat": 30.6746599035327,
+                "STATIONCODE": "S1161",
+                "TYPE":"png"
+            },
+            {
+                "id": 24,
+                "city": "成都",
+                "name": "三道堰",
+                "lon": 103.923754326766,
+                "lat": 30.8739443546261,
+                "STATIONCODE": "S1302",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 25,
+                "city": "成都",
+                "name": "五凤溪",
+                "lon": 104.073005425727,
+                "lat": 30.5783196372177,
+                "STATIONCODE": "S1455",
+                "TYPE":"png"
+            },
+            {
+                "id": 26,
+                "city": "成都",
+                "name": "宝山",
+                "lon": 103.797907628078,
+                "lat": 31.2450670316998,
+                "STATIONCODE": "S1372",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 27,
+                "city": "成都",
+                "name": "白鹿音乐小镇",
+                "lon": 104.139985110519,
+                "lat": 30.5781316675836,
+                "STATIONCODE": "S1393",
+                "TYPE":"png"
+            },
+            {
+                "id": 28,
+                "city": "成都",
+                "name": "石象湖",
+                "lon": 103.431949177685,
+                "lat": 30.1991558562185,
+                "STATIONCODE": "S1796",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 29,
+                "city": "成都",
+                "name": "元通古镇",
+                "lon": 103.568597922558,
+                "lat": 30.8222541831025,
+                "STATIONCODE": "S1671",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 30,
+                "city": "成都",
+                "name": "海滨城",
+                "lon": 103.917149324813,
+                "lat": 30.6098057421419,
+                "STATIONCODE": 56288,
+                "TYPE":"png"
+            },
+            {
+                "id": 31,
+                "city": "成都",
+                "name": "成佳茶乡",
+                "lon": 103.396435853472,
+                "lat": 30.2124628567277,
+                "STATIONCODE": "S1752",
+                "TYPE":"png"
+            },
+            {
+                "id": 32,
+                "city": "成都",
+                "name": "幸福田园",
+                "lon": 103.651822562612,
+                "lat": 30.9845247350619,
+                "STATIONCODE": "S1707",
+                "TYPE":"png"
+            },
+            {
+                "id": 33,
+                "city": "成都",
+                "name": "青杠树",
+                "lon": 103.96181578774,
+                "lat": 30.8443982361256,
+                "STATIONCODE": "S1301",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 34,
+                "city": "成都",
+                "name": "斑竹林",
+                "lon": 103.819156475505,
+                "lat": 30.496024651057,
+                "STATIONCODE": "S1028",
+                "TYPE":"jpg"
+            },
+            {
+                "id": 35,
+                "city": "成都",
+                "name": "丹景山",
+                "lon": 104.224493515012,
+                "lat": 30.3798280261473,
+                "STATIONCODE": "S1383",
+                "TYPE":"png"
+            },
+            {
+                "id": 36,
+                "city": "成都",
+                "name": "花溪谷",
+                "lon": 103.868275443251,
+                "lat": 30.6849498543312,
+                "STATIONCODE": "S1035",
+                "TYPE":"jpg"
+            }
+    ]
+        function init(){
+            $(".dayun-title").on("click","li",function(){
+             $(this).addClass("select").siblings().removeClass("select");
+            var index=$(this).attr("data-code");
+            var html="";
+            if(index==1){
+                for(var i=0;i<getStations.length;i++){
+                    html+=`<li>
+                                <img src="images/shiqu/${getStations[i].STATIONNAME+"."+getStations[i].TYPE}" alt="">
+                                <div>${getStations[i].STATIONNAME}</div>
+                          </li>`
+                }
+            }
+            if(index==2){
+                for(var i=0;i<jingqudata.length;i++){
+                    html+=`<li>
+                                <img src="images/jingqu/${jingqudata[i].name+"."+jingqudata[i].TYPE}" alt="">
+                                <div>${jingqudata[i].name}</div>
+                          </li>`
+                }
+            }
+            if(index==3){
+            for(var i=0;i<changguandata.length;i++){
+                    html+=`<li datatype=${changguandata[i].type}>
+                                <img src="images/dayun/${changguandata[i].name+"."+changguandata[i].ptype}" alt="">
+                                <div>${changguandata[i].name}</div>
+                           </li>`
+                }
+            }
+            $(".dayun-rbj").html(html);
+            });
+            $(".dayun-rbj").on("click","li",function(){
+            //dataindex那一个分类
+            location.href="dydindex.html?dataindex="+$(".dayuntitle").find("li.select").attr("dataindex")+"&name="+$(this).find("div").text()+"&type="+$(this).attr("datatype");
+            });
+            $(".head").on("click","p",function(){
+                $(".txplay").show();
+            });
+            $(".txplay").on("click",".play-zx",function(){
+                $(".txplay").hide();
+            });
+            $(".playzy-sport").on("click","li",function(){
+                $(this).addClass("select").siblings().removeClass();
+                let txt=$(".playzy-sport .select").text();
+                $(".biaoti").text(txt);
+                chuangtxt = txt;
+                zxc();
+            });
+            $(".changuan").on("click","li",function(){
+                $(this).addClass("select").siblings().removeClass();
+                $(".txplay").hide();
+                let txt1=$(".changuan .select").text();
+                $(".head span").text(txt1)
+            });
+            $(".playzy-sport").find("li").eq(3).click();
+          
+            //zxc();
+        };
+        function zxc(){
+       $.ajax({
+            type:"GET", 
+            url:"https://www.cdsqxt.com.cn:8100/Weather/ZDZ?projectname=&calltype=4&iquery=ZDZ.GetDataByStationCodesAndWeatherKeys|1|String;tenminute|String;S1009|String;airtemp_current,wind_current,rh_current,rain_sum|DateTime;2024/09/16%2017:02:02&tk=1726477322747",
+            datatype: "json",
+            success:function(res){
+                res= JSON.parse(res)
+                console.log(res);
+                if(res.Rows.length>0){
+                $(".temp-txt span").text(Math.round(res.Rows[0].AIRTEMP_CURRENT_VALUE));
+                $(".temp-time span").text(res.Rows[0].COUNTY+"气象站"+res.Rows[0].HAPPENTIME.slice(11,16)+"采集");
+                $(".temx-js").text((res.Rows[0].RAIN_SUM_VALUE===null?"/":res.Rows[0].RAIN_SUM_VALUE)+"mm");
+                $(".temx-wsd").text((res.Rows[0].RH_CURRENT_VALUE||"/")+"%");
+                $(".temx-fx").text((res.Rows[0].WIND_CURRENT_POWERVALUE||"/")+"级");
+                $(".head span").text(res.Rows[0].CITY);
+            };
+            },
+        });
+        
+        $.getJSON("resources/chengdu_changguan.json",function (data) {
+            changguandata = data;
+            console.log(data)
+            var html="";
+            var html1="";
+            console.log(chuangtxt)
+            for(var i=0;i<data.length;i++){
+                html+=`<li datatype=${data[i].type}>
+                         <img src="images/dayun/${data[i].name+"."+data[i].ptype}" alt="">
+                         <div>${data[i].name}</div>
+                       </li>`;
+                       
+                if(data[i].type == chuangtxt){
+                    html1+=`<li datatype=${data[i].type}>
+                        ${data[i].name}
+                        </li>`
+                };
+            };
+            $(".dayun-rbj").html(html);
+            $(".changuan").html(html1);
+           
+        })
+    };
+
+    function twekend(){
+        var weekends="";
+        var weekendsrq="";
+      let daysOfWeek = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      for(let i=0;i<7;i++){
+      // 获取当前星期的数字索引（0-6，0是星期日）
+       let date=new Date();
+       date.setDate(date.getDate()+i);
+      // console.log(date);
+       let h= date.getDay();
+  
+      // 显示当前星期
+      //console.log(h);
+      weekends+=`
+      <td>`+daysOfWeek[h]+`</td>`
+      weekendsrq+=`
+      <td>`+date.Format("MM/dd")+`</td>`
+        };
+     $(".hights").html(weekends);
+     $(".hightsx").html(weekendsrq);
+
+     $.ajax({
+            type:"GET", 
+            url:"https://www.cdsqxt.com.cn:8100/Weather/NWP?projectname=&calltype=4&iquery=Stream.GetJxhByTypeCodeAndTimeRangeAndLocation|1|String;JXH|Int32;24|DateTime;2024/09/17%2008:00:00|DateTime;2024/09/24%2008:00:00|String;104.06|String;30.67&tk=1726573659458",
+            datatype: "json",
+            success:function(res){
+                res= JSON.parse(res);
+                console.log(res)
+				var f=new Array();
+				var h=new Array()
+				console.log(f)
+				for( var i=0;i<
+				res[0].elementlist.length;i++){
+				var option=res[0].elementlist[i].elementvalue[2];
+				var optiong=res[0].elementlist[i].elementvalue[3];
+				console.log(option)
+				f.push(option);
+				h.push(optiong)
+				}
+				var num=f.map(Number);
+				var bum=h.map(Number);
+				console.log(num);
+				console.log(bum)
+			
+            var chart = Highcharts.chart('container', {
+		    chart: {
+                backgroundColor:"rgba(255,255,255,0)",
+                type: 'spline',
+            },
+            title: {
+                text: ''
+            },
+            subtitle: {
+                text: ''
+            },
+            legend: {
+                selectedMode:false,
+                enabled: false
+            },
+            xAxis: {
+                title: {
+                    text: ''
+                },
+                lineWidth :0,
+                tickWidth:0,
+                labels:{
+                    enabled:false
+                }
+            },
+            yAxis: {
+                labels:{
+                    enabled:false
+                },
+                title:{
+                    enabled:false
+                },
+                enabled:false,
+                visible:false,
+                gridLineWidth:'0'
+            },
+            tooltip: {
+                enabled:false,
+                show:false,
+                crosshairs: false,
+                shared: false
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    lineWidth:2,
+                    states: {
+                        hover: {
+                            enabled: false
+                        }
+                    }
+                },
+                spline: {
+                    dataLabels: {
+                        enabled: true,
+                        color: '#febe30',
+                        style: {
+                            fontSize:"3vw",
+                            fontWeight:"normal",
+                            textShadow: 0,
+                            textOutline:"none"
+                        }
+                    },
+                    marker: {
+                        radius: 4,
+                        lineColor: '',
+                        lineWidth: 1
+                    },
+                    // color:"#ff8400"
+                }
+            },
+            series: [{
+                name: "",
+                marker: {
+                    symbol: 'circle',
+                    fillColor:"#578EDB"
+                },
+                data: num,
+                color: "#FFE400",
+                dataLabels: {
+                    color: "#FFE400",
+                    verticalAlign: "bottom"
+                }
+            }, {
+                name: "",
+                marker: {
+                    symbol: 'circle',
+                    fillColor:"#5487D7"
+                },
+                data: bum,
+                color: "#00FCFF",
+                dataLabels: {
+                    color: "#00FCFF",
+                    verticalAlign: "top"
+                }
+            }]
+            });
+          }
+        });
+
+    };
+        init();
+        twekend()
+    })
+</script>
+</html>
